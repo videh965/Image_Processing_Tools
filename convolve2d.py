@@ -1,5 +1,4 @@
 import sys
-
 import cv2
 import numpy as np
 
@@ -60,17 +59,14 @@ if __name__ == '__main__':
     # Grayscale Image
     image = processImage('Image.jpg')
     
-    #cv2.imwrite('2DConvolved(Grey).jpg', image)
     # Edge Detection Kernel
     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
+    #Gaussian Blur Kernel
     Gaussian_Blur_Kernel = np.array([[1, 4, 7, 4, 1], [4, 16, 26, 16, 4], [7, 26, 41, 26, 7], [4, 16, 26, 16, 4], [1, 4, 7, 4, 1]])/273
+    #Mean Kernel
     Mean_Kernel = np.full((3, 3), 1/9)
-    
-
 
     # Convolve and Save Output
-    output = convolve2D(image, Mean_Kernel, padding=1)
-    #print(image.shape)
-    #print(output.shape)
-    unsharp = image + 13*(image - output) 
-    cv2.imwrite('2DSirMean.jpg', output)
+    output = convolve2D(image, Gaussian_Blur_Kernel, padding=1)
+    #unsharp = image + 13*(image - output)       #used to sharpen the image by subtracting the blurred version 
+    cv2.imwrite('convolved.jpg', output)
